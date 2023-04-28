@@ -1,8 +1,6 @@
 {
   "index": "Introduction",
-  "---": {
-    "type": "separator"
-  },
   "getting_started": "Getting started",
-  "concepts": "Concepts"
+  "concepts": "Concepts",
+  "putting_together": "Putting together"
 }
