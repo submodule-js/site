@@ -11,7 +11,7 @@
     "typescript": "^5.0.3"
   },
   "scripts": {
-    "build": "next build && next export -o docs",
+    "export": "next build && next export -o docs",
     "deploy": "gh-pages -d docs -t true"
   }
 }
