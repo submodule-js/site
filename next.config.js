@@ -16,17 +16,12 @@ if (isGithubActions) {
   basePath = `/${repo}`;
 }
 
-module.exports = {
-  assetPrefix: assetPrefix,
-  basePath: basePath,
-};
-
 module.exports = withNextra({
   images: {
     unoptimized: true,
   },
   assetPrefix,
-  basePath: assetPrefix,
+  basePath,
   reactStrictMode: true,
   swcMinify: true,
   trailingSlash: true,
