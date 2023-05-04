@@ -1,0 +1,115 @@
+import { Steps } from "nextra-theme-docs"
+import { Tab, Tabs } from 'nextra-theme-docs'
+
+Executable mode is the most flexible way for you to integrate submodule with your application.
+
+<Steps>
+
+### install `@submodule/core` using your prefered package manager
+<Tabs items={[
+  'npm', 
+  'yarn', 
+  'pnpm',
+]}>
+  <Tab>
+  ```zsh copy
+  npm install @submodule/core
+  ```
+  </Tab>
+  
+  <Tab>
+  ```zsh copy
+  yarn install @submodule/core
+  ```
+  </Tab>
+  
+  <Tab>
+  ```zsh copy
+  pnpm install @submodule/core
+  ```
+  </Tab>
+
+</Tabs>
+
+### prepare runtime environment (optional)
+We use `tsx` here to simplify the process, but it will be the same for all runner
+
+<Tabs items={[
+  'npm', 
+  'yarn', 
+  'pnpm',
+]}>
+  <Tab>
+  ```zsh copy
+  npm install -D tsx
+  ```
+  </Tab>
+  
+  <Tab>
+  ```zsh copy
+  yarn install -D tsx
+  ```
+  </Tab>
+  
+  <Tab>
+  ```zsh copy
+  pnpm install -D tsx
+  ```
+  </Tab>
+
+</Tabs>
+
+```json filename="tsconfig.json" copy
+{
+  "compilerOptions": {
+    "moduleResolution": "node"
+  }
+}
+```
+
+### hello.world
+```typescript copy showLineNumbers filename="submodule.ts"
+import { builder } from "@submodule/core"
+
+type Config = { }
+
+export const exec = builder()
+  .config<{ debug: boolean }>()
+  .services<{ log: (...args: any[]) => void }>()
+  .prepareExecutable({
+    async createConfig() {
+      return { debug: Boolean(process.env.DEBUG )}
+    },
+    async createServices({ config }) {
+                        // ^? { debug: boolean }
+      return {
+        log(...args) {
+        //     ^? any[]
+          if (config.debug) {
+            console.log.apply(console, args)
+          }
+        }
+      }
+    }
+  }, undefined)
+```
+
+```typescript copy showLineNumbers filename="main.ts"
+import { exec } from "./submodule"
+
+exec(({ services }) => {
+  services.log('hello', 'world')
+})
+```
+
+### enjoy
+```bash copy
+npx tsx main.ts
+# should return nothing
+```
+```bash copy
+DEBUG='true' tsx main.tsx
+# should print out hello world
+```
+</Steps>
+

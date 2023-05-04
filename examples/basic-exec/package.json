@@ -1,0 +1,12 @@
+{
+  "name": "basic-exec",
+  "private": true,
+  "packageManager": "yarn@3.5.0",
+  "dependencies": {
+    "@submodule/core": "^1.1.1",
+    "tsx": "^3.12.7"
+  },
+  "devDependencies": {
+    "@types/node": "^18.16.3"
+  }
+}
