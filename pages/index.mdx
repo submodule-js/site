@@ -1,7 +1,45 @@
+import { Steps } from "nextra-theme-docs"
+
 # Why Submodule?
  
-Welcome to the Submodule documentation! Submodule is a powerful and flexible Javascript/Typescript library that helps you enforce a good structure for your Node.js backend applications. Whether you're building a command-line interface (CLI) for migrations or a full-fledged backend, Submodule can adapt to your needs by acting as a composer that connects all the reusable functions in your project.
+Submodule is the simpliest possible IOC using function. As the currency in Submodule are all functions, Submodule gives a lot of flexibility and reusability to the library users
 
-Submodule is designed to be opinionated, but its implementation details are entirely up to you. This means you can bring your own configuration loader, choose any Javascript web server or framework, and Submodule will seamlessly integrate with your project.
+## 1 minute example
+<Steps>
+### Install dependencies
+```bash copy
+npm install @submodule/core chalk
+```
 
-In this documentation, you'll learn how to install and use Submodule, as well as explore its core concepts and advanced features. We'll also cover how to integrate Submodule into your existing projects and answer frequently asked questions.
+### Write your color app
+```javascript filename="main.mjs" copy
+import { prepareExecutable } from "@submodule/core"
+import chalk from "chalk"
+
+const { execute } = prepareExecutable({
+  createConfig() {
+    const color = chalk[process.env.LOG_COLOR] || chalk.green
+
+    return { color }  
+  },
+  createServices({ config }) {
+    return {
+      log(...args) {
+        console.log(...args.map(arg => config.color(arg)))
+      }
+    }
+  }
+})
+
+execute(( { services } ) => {
+  services.log('hello', 'world')
+})
+```
+
+### Execute code
+```bash copy
+node main.mjs # should return hello world in green
+LOG_COLOR=red node main.mjs # should return hello world in red
+```
+
+</Steps>

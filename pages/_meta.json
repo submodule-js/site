@@ -1,6 +1,5 @@
 {
-  "index": "Introduction",
-  "getting_started": "Getting started",
+  "index": "Getting started",
   "concepts": "Concepts",
-  "putting_together": "Putting together"
+  "typescript": "Typescript support"
 }

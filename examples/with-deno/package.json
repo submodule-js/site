@@ -1,0 +1,14 @@
+{
+  "name": "with-deno",
+  "version": "1.0.0",
+  "description": "Use @submodule/core with deno",
+  "main": "main.ts",
+  "scripts": {
+    "run": "deno main.ts"
+  },
+  "author": "Duke",
+  "license": "ISC",
+  "dependencies": {
+    "@submodule/core": "^2.0.0"
+  }
+}

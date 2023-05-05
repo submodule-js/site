@@ -1,18 +1,23 @@
+
 import { prepareExecutable } from "@submodule/core"
 
-export const { execute, prepare } = prepareExecutable({
+export const { execute } = prepareExecutable({
   createConfig() {
-    return { debug: Boolean(process.env.DEBUG) }
+    return { port: 3000 }
   },
 
   createServices({ config }) {
     return {
       log(...args: any[]) {
-        if (config.debug) {
+        if (config.port > 1000) {
           console.log.apply(console, args)
         }
       }
     }
   },
 
+})
+
+execute(({ services }) => {
+  services.log('abcd', 'ef')
 })

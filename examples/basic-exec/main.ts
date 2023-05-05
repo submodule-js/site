@@ -1,5 +1,9 @@
-import { exec } from "./submodule";
+import { execute, prepare } from "./submodule";
 
-exec(({ services, input }) => {
+execute(({ services }, input) => {
   services.log(input)
 }, { hello: 'world' })
+
+const log = prepare(({ services }, input: string) => {
+  services.log(input)
+})
