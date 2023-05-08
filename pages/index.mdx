@@ -1,8 +1,15 @@
 import { Steps } from "nextra-theme-docs"
 
 # Why Submodule?
- 
-Submodule is the simpliest possible IOC using function. As the currency in Submodule are all functions, Submodule gives a lot of flexibility and reusability to the library users
+
+Simpliest, yet very flexibile Inversion of Control within 100 lines of code
+
+What Submodule brings?
+- ✅ Typescript out of the box
+- ✅ Browser, Node.js, Deno, Bun, you name it
+- ✅ Easy to understand
+- ✅ No magic, no codegen
+- ✅ Integratable with all frameworks, bring your Next.js, Remix, Solid, Fastify, Express 
 
 ## 1 minute example
 <Steps>
@@ -16,23 +23,21 @@ npm install @submodule/core chalk
 import { prepareExecutable } from "@submodule/core"
 import chalk from "chalk"
 
-const { execute } = prepareExecutable({
-  createConfig() {
-    const color = chalk[process.env.LOG_COLOR] || chalk.green
+const config = prepareExecutable(() => ({ color: process.env.LOG_COLOR || chalk.green }))
 
-    return { color }  
-  },
-  createServices({ config }) {
-    return {
-      log(...args) {
-        console.log(...args.map(arg => config.color(arg)))
-      }
-    }
+export const logger = prepareExecutable((config) => {
+  return (...args) => {
+    console.log(...args.map(arg => config.color(arg)))
   }
-})
+}, { initArgs: config.get })
+```
 
-execute(( { services } ) => {
-  services.log('hello', 'world')
+```javascript filename="mymodule.mjs" copy
+import { logger } from "./main"
+
+// access from everywhere
+logger.execute(logService => {
+  logService.log('hello', 'world')
 })
 ```
 

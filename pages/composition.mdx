@@ -1,0 +1,39 @@
+# Composition
+
+Composition makes the library's DX
+
+```typescript filename="submodule.ts"
+import { prepareExecutable, compose } from "@submodule/core"
+
+const config = prepareExecutable(async () => {
+  // load config from YAML
+  // validate configuration ...
+  return { mongoDB: { ...mongoConfig }, fastify: {...fastifyConfig } }
+})
+
+const mongoService = prepareExecutable(async (config) => {
+  return mongo.connect(config.mongoDb)
+}, { initArgs: config.get })
+
+const userService = prepareExecutable(async (mongoDb) => {
+  return {
+    createUser: ...,
+    listUsers: ...
+    removeUser: ...
+  }
+}, { initArgs: mongoService.get })
+
+const projectService = prepareExecutable(async (mongoDb) => {
+  return {
+    createProject: ...,
+    listProjects: ...
+    removeProject: ...
+  }
+}, { initArgs: mongoService.get })
+
+const services = compose({ userService, projectService }) 
+
+const result = await services.execute(({ userService, projectService }) => {
+  // do whatever you like with services any where
+})
+```
