@@ -11,6 +11,10 @@ What Submodule brings?
 - ✅ No magic, no codegen
 - ✅ Integratable with all frameworks, bring your Next.js, Remix, Solid, Fastify, Express 
 
+# Version 4.0
+
+Submodule 4.0 comes with a much lighter set of API to over-simplify operation
+
 ## 1 minute example
 <Steps>
 ### Install dependencies
@@ -20,24 +24,26 @@ npm install @submodule/core chalk
 
 ### Write your color app
 ```javascript filename="main.mjs" copy
-import { prepareExecutable } from "@submodule/core"
+import { create } from "@submodule/core"
 import chalk from "chalk"
 
-const config = prepareExecutable(() => ({ color: process.env.LOG_COLOR || chalk.green }))
+const config = create(() => ({ color: process.env.LOG_COLOR || chalk.green }))
 
-export const logger = prepareExecutable((config) => {
+// craft an utilities with dependencies
+export const logger = create((config) => {
   return (...args) => {
     console.log(...args.map(arg => config.color(arg)))
   }
-}, { initArgs: config.get })
+}, config)
 ```
 
 ```javascript filename="mymodule.mjs" copy
 import { logger } from "./main"
+import { create } from "@submodule/core"
 
 // access from everywhere
-logger.execute(logService => {
-  logService.log('hello', 'world')
+from(logger).execute({ log} => {
+  log('hello', 'world')
 })
 ```
 

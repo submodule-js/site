@@ -3,37 +3,37 @@
 Composition makes the library's DX
 
 ```typescript filename="submodule.ts"
-import { prepareExecutable, compose } from "@submodule/core"
+import { create, combine } from "@submodule/core"
 
-const config = prepareExecutable(async () => {
+const config = create(async () => {
   // load config from YAML
   // validate configuration ...
   return { mongoDB: { ...mongoConfig }, fastify: {...fastifyConfig } }
 })
 
-const mongoService = prepareExecutable(async (config) => {
+const mongoService = create(async (config) => {
   return mongo.connect(config.mongoDb)
-}, { initArgs: config.get })
+}, config)
 
-const userService = prepareExecutable(async (mongoDb) => {
+const userService = create(async (mongoDb) => {
   return {
     createUser: ...,
     listUsers: ...
     removeUser: ...
   }
-}, { initArgs: mongoService.get })
+}, mongoService)
 
-const projectService = prepareExecutable(async (mongoDb) => {
+const projectService = create(async (mongoDb) => {
   return {
     createProject: ...,
     listProjects: ...
     removeProject: ...
   }
-}, { initArgs: mongoService.get })
+}, mongoService)
 
-const services = compose({ userService, projectService }) 
+const services = combine({ userService, projectService }) 
 
-const result = await services.execute(({ userService, projectService }) => {
+const result = await from(services).execute(({ userService, projectService }) => {
   // do whatever you like with services any where
 })
 ```
