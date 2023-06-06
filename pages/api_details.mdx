@@ -38,13 +38,25 @@ Usecase, `prepare` is normally use to handle framework callbacks
 
 ```typescript
 const a = create(() => 'a')
-const fn = a.prepare<Request>((v, i) => {
-  //                   ^? Request
-  //                ^? 'a'
+const fn = a.prepare<[Request]>((v, i) => {
+  //                                ^? Request
+  //                             ^? 'a'
 })
 
 fn(request) 
 // ^? Request
+```
+
+From `v4.4`, prepare also supports variadic parameters
+
+```typescript
+const a = create(() => 'a')
+const fn = a.prepare<[Request, Response]>((v, req, res) => {
+  //                                          ^? Request
+  //                                               ^? Response
+})
+
+fn(request, response) 
 ```
 
 ## Creation API
@@ -67,7 +79,7 @@ Link executor together
 const a = value('a')
 
 const b: Executor<...> = from(a).provide((v) => {
-  //             ^? 'a'
+  //                                      ^? 'a'
 })
 ```
 
