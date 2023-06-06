@@ -26,7 +26,7 @@ Instead, you can also control the transfered config using `hijacking`
 
 ```typescript
 import { value } from "@submodule/core"
-logger.inject(value({ logLevel: 'error' })
+logger._inject(value({ logLevel: 'error' })
 ```
 
 With this, the dependent value will be as fed and you can simulate other cases
