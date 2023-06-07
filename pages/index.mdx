@@ -1,56 +1,28 @@
-import { Steps } from "nextra-theme-docs"
+import { Tabs, Tab, Cards, Card } from "nextra-theme-docs"
 
-# Why Submodule?
+# Simplify Service Lifecycle Management in Node.js with Submodule
 
-Simpliest, yet very flexibile Inversion of Control within 100 lines of code
+**Effortlessly manage the lifecycle of your services in Node.js with Submodule**, a lightweight and versatile library designed to streamline service management. Say goodbye to complex dependency handling, configuration management, and testing challenges.
 
-What Submodule brings?
-- ✅ Typescript out of the box
-- ✅ Browser, Node.js, Deno, Bun, you name it
-- ✅ Easy to understand
-- ✅ No magic, no codegen
-- ✅ Integratable with all frameworks, bring your Next.js, Remix, Solid, Fastify, Express 
+## Clear Structure, Easy Management
 
-## Version 4.0
+* **Organize services with ease:** Wrap your service creation functions and chain them together for a clear and organized structure.
+* **Simplify complex dependencies:** Manage and understand intricate dependencies between services more effectively.
+* **Seamlessly integrate with your framework:** Bring Submodule into your existing frameworks and utilize its power wherever you have an async function.
 
-Submodule 4.0 comes with a much lighter set of API to over-simplify operation
+## Streamlined Testing
 
-## 1 minute example
-<Steps>
-### Install dependencies
-```bash copy
-npm install @submodule/core chalk
-```
+* **Flexible testing environment:** Easily change dependencies for testing purposes, promoting testability and isolation.
+* **Testable code chunks:** Organize your code into smaller, testable units, facilitating robust testing.
+* **Controlled lifecycle management:** Implement unit tests and integration tests with ease by controlling the lifecycle of services.
 
-### Write your color app
-```javascript filename="main.mjs" copy
-import { create } from "@submodule/core"
-import chalk from "chalk"
+## Lightweight and Simple
 
-const config = create(() => ({ color: process.env.LOG_COLOR || chalk.green }))
+* **No unnecessary abstractions:** Built in Typescript with zero dependencies, Submodule embraces the fundamental concept of functions without complex magic.
+* **Quick to understand and adopt:** Experience the simplicity and elegance of Submodule, even for developers new to the library.
 
-// craft an utilities with dependencies
-export const logger = create((config) => {
-  return (...args) => {
-    console.log(...args.map(arg => config.color(arg)))
-  }
-}, config)
-```
+Discover a painless way to manage the lifecycle of your services in Node.js with Submodule. Enhance your development workflow, improve code maintainability, and simplify testing processes.
 
-```javascript filename="mymodule.mjs" copy
-import { logger } from "./main"
-import { create } from "@submodule/core"
-
-// access from everywhere
-from(logger).execute(log => {
-  log('hello', 'world')
-})
-```
-
-### Execute code
-```bash copy
-node main.mjs # should return hello world in green
-LOG_COLOR=red node main.mjs # should return hello world in red
-```
-
-</Steps>
+<Cards num={2}>
+  <Card title="2 mins brief" arrow></Card>
+</Cards>
